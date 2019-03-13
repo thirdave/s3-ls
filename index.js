@@ -8,8 +8,15 @@ module.exports = function S3LS(options) {
   }
 
   const bucket = options.bucket;
-  const s3 =
-    options.s3 || new (require("aws-sdk")).S3({ apiVersion: "2006-03-01" });
+  var AWS = require('aws-sdk');
+
+  AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  });
+
+  const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+
 
   return {
     ls(path) {
